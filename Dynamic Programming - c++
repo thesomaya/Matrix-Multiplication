@@ -1,0 +1,50 @@
+#include <iostream>
+using namespace std;
+#define N 4
+// Time Complexity O(N^3)
+// Space Complexity O(N^2)
+int MatrixChainOrder(int a[], int s[N+1][N+1])
+{
+    int m[N+1][N+1];
+    for (int i = 1; i <= N; i++)
+m[i][i] = 0;
+    for (int L = 2; L <= N; L++)
+        for (int i = 1; i < N+1 - L + 1; i++)
+        {
+            int j = i + L - 1;
+            m[i][j] = INT_MAX;
+            for (int k = i; k <= j - 1; k++)
+            {
+                int c = m[i][k] + m[k + 1][j]
+                    + a[i - 1] * a[k] * a[j];
+                if (c < m[i][j])
+                {
+m[i][j] = c;
+s[i][j] = k; }
+} }
+    return m[1][N];
+}
+void print (int i, int j, int s[][N+1])
+{
+    if(i == j)
+        cout << "A" << i ;
+else
+{
+cout << "(" ;
+        print(i,s[i][j],s);
+        print(s[i][j]+1,j,s);
+        cout << ")";
+} }
+int main() {
+    int a[] = { 5, 4, 6, 2, 7 };
+    int s[N+1][N+1];
+    cout << "Minimum number of multiplications is "
+         << MatrixChainOrder(a, s) << endl;
+    print (1,N,s);
+cout << endl;
+return 0; }
+
+/*
+ Minimum number of multiplications is 158
+ ((A1(A2A3))A4)
+ */
